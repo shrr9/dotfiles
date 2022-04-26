@@ -6,28 +6,12 @@
 # Copyright (c) 2013 horsik
 # Copyright (c) 2013 Tao Sauvage
 #
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
 
-from libqtile import bar, layout, widget
+from libqtile import bar, layout, widget 
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
+import psutil
 
 mod = "mod4"
 terminal = guess_terminal()
@@ -101,17 +85,17 @@ for i in groups:
     )
 
 layouts = [
-    layout.Columns(border_focus="#c5c8c6", border_normal="231e23", border_width=4),
+    layout.Columns(border_focus="#d6a60a", border_normal="2a2b2b", border_width=4),
     #layout.Max(),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
+    # layout.Bsp(border_focus = '#d6a60a', border_normal = '#2a2b2b', border_width = 4),
     # layout.Matrix(),
-    # layout.MonadTall(),
+     layout.MonadTall(border_focus = '#d6a60a', border_normal = '#2a2b2b', border_width = 4),
     # layout.MonadWide(),
     # layout.RatioTile(),
-    #layout.Tile(border_focus_stack=["#c5c8c6", "#231e23"], border_width=3),
-    # layout.TreeTab(),
+    #layout.Tile(border_focus = '#d6a60a', border_normal = '#2a2b2b', border_width = 4),
+    # layout.TreeTab(border_focus = '#d6a60a', border_normal = '#2a2b2b', border_width = 4),
     # layout.VerticalTile(),
     # layout.Zoomy(),
 ]
@@ -121,33 +105,150 @@ widget_defaults = dict(
     fontsize=12,
     padding=3,
 )
-extension_defaults = widget_defaults.copy()
 
+widget_defaults = dict(
+    font="SourceCodeProBold",
+    fontsize = 10,
+    padding = 2,
+    background="#102313"
+)
+foreground = "#d6a60a"
+background = "#2a2b2b"
+
+extension_defaults = widget_defaults.copy()
 screens = [
     Screen(
         bottom=bar.Bar(
+#                [            
+#                widget.CurrentLayout(),
+#                widget.GroupBox(),
+#                widget.Prompt(),
+#                widget.WindowName(),
+#                widget.Chord(
+##                    chords_colors={
+#                        "launch": ("#ff0000", "#ffffff"),
+##                    },
+#                    name_transform=lambda name: name.upper(),
+#                ),
+#                widget.Systray(),
+#                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
+#                widget.QuickExit(),
+#            ],
+#
+#
             [
-                widget.CurrentLayout(),
-                widget.GroupBox(),
-                widget.Prompt(),
-                widget.WindowName(),
-                widget.Chord(
-                    chords_colors={
-                        "launch": ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-                widget.Systray(),
-                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
-                widget.QuickExit(),
-            ],
-            24,
+            
+            widget.Sep(
+                       linewidth = 0,
+                       padding = 6,
+                       foreground = foreground,
+                       background = background   
+                       ),
+
+            widget.Sep(
+                       linewidth = 0,
+                       padding = 5,
+                       foreground = foreground,
+                       background = background   
+                       ),
+
+              widget.GroupBox(
+                       font = "SourceCodePro",
+                       fontsize = 12,
+                       margin_y = 3,
+                       margin_x = 0,
+                       padding_y = 5,
+                       padding_x = 3,
+                       borderwidth = 3,
+                       inactive = "#725b0d",
+                       active = '#d6a60a',
+                       rounded = False,
+                       this_current_screen_border = "#d6a60a",
+                       highlight_color = "#d6a60a",
+                       highlight_method = "block",
+                       foreground = '#2a2b2b',
+                       background = background
+                       ),
+             widget.TextBox(
+                       text = '|',
+                       font = "Source Code Pro",
+                       background = background,
+                       foreground = "#d6a60a",
+                       padding = 2,
+                       fontsize = 14
+                       ),
+
+
+
+             widget.WindowName(
+                       foreground = foreground,
+                       background = background,
+                       padding = 0
+                       ),
+
+
+             widget.TextBox(
+                       text = '',
+                       font = "SourceCodePro",
+                       background = background,
+                       foreground = foreground,
+                       padding = -13,
+                       fontsize = 37
+                       ),
+
+             widget.Net(
+                       interface = "enp1s0",
+                       format = 'Net: {down} ↓↑ {up}',
+                       foreground = background,
+                       background = foreground,
+                       padding = 5,
+                       fontsze = 12
+                       ),
+
+             widget.TextBox(
+                       text = '',
+                       font = "SourceCodePro",
+                       background = foreground,
+                       foreground = background,
+                       padding = -13,
+                       fontsize = 37
+                       ),
+
+             widget.ThermalSensor(
+                       fontsize = 12,
+                       foreground = foreground,
+                       background = background,
+                       threshold = 90,
+                       fmt = 'Temp: {}',
+                       padding = 5
+                       ),
+
+             widget.TextBox(
+                       text = '',
+                       font = "SourceCodePro",
+                       background = background,
+                       foreground = foreground,
+                       padding = -13,
+                       fontsize = 37
+                       ),
+
+             widget.Clock(format="%m %d %a %H:%M", 
+                     fontsize = 12,
+                     foreground=background, 
+                     background = foreground),
+
+             widget.QuickExit(foreground = background,
+                     background = foreground,
+                     default_text = 'Ψ'
+                     ),
+
+             ], 
+             24,
             #border_width=[3, 3, 3, 3],  # Draw top and bottom borders
             #border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
     ),
 ]
-
 # Drag floating layouts.
 mouse = [
     Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
