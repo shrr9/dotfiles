@@ -1,16 +1,41 @@
 call plug#begin('~/.local/share/site/autoload/plug.vim')
 
+"hex color background
+Plug 'ap/vim-css-color'
+
+"file manager
 Plug 'preservim/nerdtree'
+
+"python supprot
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+
+"Visually show indents -> :IndentGuidesEnable
 Plug 'nathanaelkane/vim-indent-guides'
+
+"More colors
 Plug 'flazz/vim-colorschemes'
+
+"Highlight yank
 Plug 'machakann/vim-highlightedyank'
-Plug 'rinx/nvim-minimap'
+
+"VS-Style Minimap
+"Plug 'rinx/nvim-minimap'
+Plug 'yavko/minimap.nvim'
+
+"LaTeX Support
 Plug 'vim-latex/vim-latex'
+
+"Color highlighting syntax
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
+"Statusbar
 Plug 'nvim-lualine/lualine.nvim'
 Plug 'nvim-lua/plenary.nvim'
+
+"git support
 Plug 'lewis6991/gitsigns.nvim'
+
+
 "Plug 'lervag/vimtex'
 "Plug 'Konfekt/FastFold'
 "Plug 'matze/vim-tex-fold'
@@ -33,8 +58,8 @@ map <C-n> :NERDTreeToggle<CR>
 
 
 "minimap auto on
-"autocmd VimEnter * Minimap
-"autocmd VimEnter * MinimapUpdateHighlight
+autocmd VimEnter * Minimap
+autocmd VimEnter * MinimapUpdateHighlight
 
 "basic setup
 set undofile
