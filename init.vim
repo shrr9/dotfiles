@@ -1,7 +1,8 @@
 call plug#begin('~/.local/share/site/autoload/plug.vim')
 
 "hex color background
-Plug 'ap/vim-css-color'
+"Plug 'ap/vim-css-color'
+Plug 'norcalli/nvim-colorizer.lua'
 
 "file manager
 Plug 'preservim/nerdtree'
@@ -53,6 +54,10 @@ Plug 'lewis6991/gitsigns.nvim'
 
 call plug#end()
 
+"hex color setup
+set termguicolors
+lua require'colorizer'.setup()
+
 "nerd tree remap
 map <C-n> :NERDTreeToggle<CR>
 
@@ -78,7 +83,9 @@ set scrolloff=8
 
 colorscheme gruvbox
 
+"a pymode setup but doesnt work anyways
 let g:pymode_lint_cwindow = 0
+
 
 
 "gitsigns setup
