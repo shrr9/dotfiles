@@ -8,7 +8,7 @@ Plug 'norcalli/nvim-colorizer.lua'
 Plug 'preservim/nerdtree'
 
 "python supprot
-Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
+"Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 
 "Visually show indents -> :IndentGuidesEnable
 Plug 'nathanaelkane/vim-indent-guides'
@@ -24,7 +24,7 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'yavko/minimap.nvim'
 
 "LaTeX Support
-Plug 'vim-latex/vim-latex'
+"Plug 'vim-latex/vim-latex'
 
 "Color highlighting syntax
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -61,6 +61,11 @@ lua require'colorizer'.setup()
 "nerd tree remap
 map <C-n> :NERDTreeToggle<CR>
 
+"compile pdflatex
+nnoremap <leader>l :! pdflatex %:p<Enter>
+
+"run with python
+nnoremap <leader>p :! python3 %:p<Enter>
 
 "minimap auto on
 autocmd VimEnter * Minimap
@@ -83,8 +88,10 @@ set scrolloff=8
 
 colorscheme gruvbox
 
-"a pymode setup but doesnt work anyways
+"pymode setup
 let g:pymode_lint_cwindow = 0
+let g:pymode_run_bind = '<leader>p'
+let g:pymode_warnings = 1
 
 
 
