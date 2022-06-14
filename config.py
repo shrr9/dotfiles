@@ -54,7 +54,7 @@ keys = [
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key(["control"], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key([mod], "b", lazy.spawn('qutebrowser'), desc="Launch browser"),
 ]
 
@@ -83,15 +83,16 @@ for i in groups:
             #     desc="move focused window to group {}".format(i.name)),
         ]
     )
-
+kingblue = '0d1f58'
 layouts = [
-    layout.Columns(border_focus="#d6a60a", border_normal="2a2b2b", border_width=4),
+    layout.Columns(border_focus="#1a7c5b", border_normal='2a2b2b', border_width=4, margin =3),
     #layout.Max(),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
     # layout.Bsp(border_focus = '#d6a60a', border_normal = '#2a2b2b', border_width = 4),
     # layout.Matrix(),
-     layout.MonadTall(border_focus = '#d6a60a', border_normal = '#2a2b2b', border_width = 4),
+    layout.Floating(border_focus = '#cfad3d', border_normal = '#2a2b2b'),
+    # layout.MonadTall(border_focus = '#d6a60a', border_normal ='#2a2b2b' , border_width = 4),
     # layout.MonadWide(),
     # layout.RatioTile(),
     #layout.Tile(border_focus = '#d6a60a', border_normal = '#2a2b2b', border_width = 4),
@@ -101,19 +102,20 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font="sans",
+    font="TabacMono",
     fontsize=12,
     padding=3,
 )
 
 widget_defaults = dict(
-    font="SourceCodeProBold",
+    font="TabacMono",
     fontsize = 10,
     padding = 2,
     background="#102313"
 )
-foreground = "#d6a60a"
-background = "#2a2b2b"
+foreground = "#1a7c5b"
+background = "#172d3a"
+font = 'TabacMono'
 
 extension_defaults = widget_defaults.copy()
 screens = [
@@ -138,42 +140,38 @@ screens = [
 #
             [
             
-            widget.Sep(
-                       linewidth = 0,
-                       padding = 6,
-                       foreground = foreground,
-                       background = background   
-                       ),
-
-            widget.Sep(
-                       linewidth = 0,
-                       padding = 5,
-                       foreground = foreground,
-                       background = background   
-                       ),
 
               widget.GroupBox(
-                       font = "SourceCodePro",
+                       font = font,
                        fontsize = 12,
                        margin_y = 3,
                        margin_x = 0,
                        padding_y = 5,
                        padding_x = 3,
                        borderwidth = 3,
-                       inactive = "#725b0d",
-                       active = '#d6a60a',
+                       inactive = "#1b4e5b",
+                       active = foreground,
                        rounded = False,
-                       this_current_screen_border = "#d6a60a",
-                       highlight_color = "#d6a60a",
+                       this_current_screen_border = foreground,
+                       highlight_color = foreground,
                        highlight_method = "block",
                        foreground = '#2a2b2b',
                        background = background
                        ),
+
+            #widget.LaunchBar(
+            #                background = background, 
+            #                foreground = foreground
+            #),
+             widget.Prompt(foreground = foreground, 
+                           background = background, 
+                           font = font),
+
              widget.TextBox(
                        text = '|',
-                       font = "Source Code Pro",
+                       font = font,
                        background = background,
-                       foreground = "#d6a60a",
+                       foreground = foreground,
                        padding = 2,
                        fontsize = 14
                        ),
@@ -183,59 +181,80 @@ screens = [
              widget.WindowName(
                        foreground = foreground,
                        background = background,
-                       padding = 0
+                       padding = 0, 
+                       font = font
                        ),
+
+
 
 
              widget.TextBox(
                        text = '',
-                       font = "SourceCodePro",
+                       font = font,
                        background = background,
                        foreground = foreground,
                        padding = -13,
                        fontsize = 37
                        ),
+#            widget.Net(
+#                      interface = "enp1s0",
+#                      format = 'Net: {down} ↓↑ {up}',
+#                      foreground = background,
+#                      background = foreground,
+#                      padding = 5,
+#                      fontsize = 12
+#                      ),
 
-             widget.Net(
-                       interface = "enp1s0",
-                       format = 'Net: {down} ↓↑ {up}',
-                       foreground = background,
+            widget.CPU(
+                    foreground = background,
+                    background = foreground,
+                    format = '{freq_current}GHz, {load_percent}',
+                    update_interval = 0.4, 
+                    max_chars = 12
+            ),
+
+
+             widget.CPUGraph(
+                        type = 'box',
+                        border_width = 0,
+                        fill_color = background,
+                        frequency = 0.1,
+                        graph_color = background,
+                        background = foreground, 
+                        foreground = background, 
+             ),
+
+             widget.TextBox(
+                       text = '',
+                       font = "SourceCodePro",
                        background = foreground,
-                       padding = 5,
-                       fontsze = 12
-                       ),
-
-             widget.TextBox(
-                       text = '',
-                       font = "SourceCodePro",
-                       background = foreground,
                        foreground = background,
                        padding = -13,
                        fontsize = 37
                        ),
 
-             widget.ThermalSensor(
-                       fontsize = 12,
-                       foreground = foreground,
-                       background = background,
-                       threshold = 90,
-                       fmt = 'Temp: {}',
-                       padding = 5
-                       ),
-
-             widget.TextBox(
-                       text = '',
-                       font = "SourceCodePro",
-                       background = background,
-                       foreground = foreground,
-                       padding = -13,
-                       fontsize = 37
-                       ),
-
-             widget.Clock(format="%m %d %a %H:%M", 
+#             widget.ThermalSensor(
+#                       fontsize = 12,
+#                       foreground = foreground,
+#                       background = background,
+#                       threshold = 90,
+#                       fmt = 'Temp: {}',
+#                       padding = 5
+#                       ),
+             widget.Clock(format="%m %d %a %H:%M:%S", 
                      fontsize = 12,
-                     foreground=background, 
-                     background = foreground),
+                     foreground=foreground, 
+                     background = background),
+
+             widget.TextBox(
+                       text = '',
+                       font = "SourceCodePro",
+                       background = background,
+                       foreground = foreground,
+                       padding = -13,
+                       fontsize = 37
+                       ),
+
 
              widget.QuickExit(foreground = background,
                      background = foreground,
