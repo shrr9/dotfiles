@@ -10,7 +10,6 @@ alias syncgpu="rsync -a -v --exclude=model pijahn@gpu04.itp.uni-heidelberg.de:/r
 alias synciflow="rsync -a -v pijahn@gpu04.itp.uni-heidelberg.de:/remote/gpu06/pijahn/i-flow ~/Uni/BA/iflowoutput/"
 alias syncuni="rsync -a -v shrrg@192.168.0.209:~/Uni ~/"
 alias lastinstalled="cat /var/log/pacman.log | grep installed"
-alias minecraft="minecraft-launcher-cmd --username shrrgnien@outlook.de --password @wEasDyxC123"
 alias whichcstate="cat /sys/module/intel_idle/parameters/max_cstate"
 alias whichgpu="glxinfo|egrep \"OpenGL vendor|OpenGL renderer\""
 alias setnvidia="optimus-manager --switch nvidia --no-confirm"
