@@ -56,6 +56,7 @@ keys = [
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key([mod], "b", lazy.spawn('qutebrowser'), desc="Launch browser"),
+    Key([mod], "q", lazy.spawn('rofi -show drun'), desc="Launch browser"),
 ]
 
 groups = [Group(i) for i in "asdfuiop"]
@@ -85,7 +86,7 @@ for i in groups:
     )
 kingblue = '0d1f58'
 layouts = [
-    layout.Columns(border_focus="#1a7c5b", border_normal='2a2b2b', border_width=4, margin =3),
+    layout.Columns(border_focus="#1a7c5b", border_normal='2a2b2b00', border_width=4, margin =3),
     #layout.Max(),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
@@ -113,8 +114,10 @@ widget_defaults = dict(
     padding = 2,
     background="#102313"
 )
-foreground = "#1a7c5b"
-background = "#172d3a"
+foreground = "#1a7c5b00"
+background = "#172d3a00"
+foregroundtext = "#9b2727"
+backgroundtext = "#172d3a"
 font = 'TabacMono'
 
 extension_defaults = widget_defaults.copy()
@@ -149,21 +152,21 @@ screens = [
                        padding_y = 5,
                        padding_x = 3,
                        borderwidth = 3,
-                       inactive = "#1b4e5b",
-                       active = foreground,
+                       inactive = "#5d2f2c",
+                       active = foregroundtext,
                        rounded = False,
-                       this_current_screen_border = foreground,
-                       highlight_color = foreground,
+                       this_current_screen_border = foregroundtext,
+                       highlight_color = foregroundtext,
                        highlight_method = "block",
                        foreground = '#2a2b2b',
-                       background = background
+                       background = background, 
                        ),
 
             #widget.LaunchBar(
             #                background = background, 
             #                foreground = foreground
             #),
-             widget.Prompt(foreground = foreground, 
+             widget.Prompt(foreground = foregroundtext, 
                            background = background, 
                            font = font),
 
@@ -171,7 +174,7 @@ screens = [
                        text = '|',
                        font = font,
                        background = background,
-                       foreground = foreground,
+                       foreground = foregroundtext,
                        padding = 2,
                        fontsize = 14
                        ),
@@ -179,7 +182,7 @@ screens = [
 
 
              widget.WindowName(
-                       foreground = foreground,
+                       foreground = foregroundtext,
                        background = background,
                        padding = 0, 
                        font = font
@@ -189,12 +192,13 @@ screens = [
 
 
              widget.TextBox(
-                       text = '',
+                       text = '◢',
+                       #text = 'T',
                        font = font,
                        background = background,
-                       foreground = foreground,
+                       foreground = '#16469b',
                        padding = -13,
-                       fontsize = 37
+                       fontsize = 66
                        ),
 #            widget.Net(
 #                      interface = "enp1s0",
@@ -206,9 +210,10 @@ screens = [
 #                      ),
 
             widget.CPU(
-                    foreground = background,
-                    background = foreground,
-                    format = '{freq_current}GHz, {load_percent}',
+                    foreground = backgroundtext,
+                    background = '#16469b',
+                    #format = '{freq_current}GHz, {load_percent}',
+                    format = '{load_percent}',
                     update_interval = 0.4, 
                     max_chars = 12
             ),
@@ -217,20 +222,21 @@ screens = [
              widget.CPUGraph(
                         type = 'box',
                         border_width = 0,
-                        fill_color = background,
+                        fill_color = backgroundtext,
                         frequency = 0.1,
-                        graph_color = background,
-                        background = foreground, 
-                        foreground = background, 
+                        graph_color = backgroundtext,
+                        background = '#16469b', 
+                        foreground = '#16469b', 
              ),
 
              widget.TextBox(
-                       text = '',
+                       #text = '',
+                       text = '◤',
                        font = "SourceCodePro",
-                       background = foreground,
-                       foreground = background,
+                       background = background,
+                       foreground = '#16469b',
                        padding = -13,
-                       fontsize = 37
+                       fontsize = 66
                        ),
 
 #             widget.ThermalSensor(
@@ -241,28 +247,32 @@ screens = [
 #                       fmt = 'Temp: {}',
 #                       padding = 5
 #                       ),
-             widget.Clock(format="%m %d %a %H:%M:%S", 
+             widget.Clock(format="%a %d %m %H:%M:%S", 
                      fontsize = 12,
-                     foreground=foreground, 
+                     foreground=foregroundtext, 
                      background = background),
 
              widget.TextBox(
-                       text = '',
+                       text = '◢',
+                       #text = '',
                        font = "SourceCodePro",
                        background = background,
-                       foreground = foreground,
+                       foreground = '#9b9216',
                        padding = -13,
-                       fontsize = 37
+                       fontsize = 66
                        ),
 
 
-             widget.QuickExit(foreground = background,
-                     background = foreground,
+             widget.QuickExit(foreground = backgroundtext,
+                     #background = foreground,
+                     background = '#9b9216',
                      default_text = 'Ψ'
                      ),
 
              ], 
              24,
+             background = '#00000000',
+             #opacity = 0.5
             #border_width=[3, 3, 3, 3],  # Draw top and bottom borders
             #border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
