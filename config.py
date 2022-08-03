@@ -56,7 +56,7 @@ keys = [
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key([mod], "b", lazy.spawn('qutebrowser'), desc="Launch browser"),
-    Key([mod], "q", lazy.spawn('rofi -show drun'), desc="Launch browser"),
+    #Key([], "Super_L", lazy.spawn('rofi -show drun'), desc="Launch browser", on_release=True),
 ]
 
 groups = [Group(i) for i in "asdfuiop"]
