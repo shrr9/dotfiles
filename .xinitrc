@@ -1,10 +1,8 @@
-#!/bin/sh
-#nitrogen --set-zoom-fill ~/Pictures/gruvbox_psy_fox.jpg &
-#~/.config/bg_hue/psyfox_hue/psyfox &
-tapetenwechsel/set_wallpaper tapetenwechsel/gruvbox_psy_fox_cropped_lowres_hue 2 &
+#!/bin/bash
+/home/shrrg/tapetenwechsel/set_wallpaper /home/shrrg/tapetenwechsel/psy_fox 1.7 &
 picom --experimental-backends &
-#xmodmap ~/.config/swap_esc_caps/swap_esc_caps.sh
 setxkbmap -option caps:swapescape
-xset r rate 220 40
-xset s off
+setxkbmap -layout us &
+xset r rate 220 40 &
+doas chmod 777 /sys/class/backlight/intel_backlight/brightness
 qtile start
