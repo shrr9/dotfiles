@@ -7,19 +7,48 @@
 # Copyright (c) 2013 Tao Sauvage
 #
 
-from libqtile import bar, layout, widget 
+from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 import psutil
+import os
 
-mod = "mod4"
+
+
+mod = "mod1"
+alt = 'mod4'
+
+
+#mod = "mod4"
+#alt = 'mod1'
+
+
+
+
+
+
+
+
 terminal = guess_terminal()
 
 keys = [
     # A list of available commands that can be bound to keys can be found
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
     # Switch between windows
+    Key([mod],"F6", lazy.spawn('/home/shrrg/.config/audio_volume/0.sh'), desc = 'increase scrren brightness '),
+    #Key([mod],"F7", lazy.spawn('/home/shrrg/.config/audio_volume/dec.sh'), desc = 'increase scrren brightness '),
+    #Key([mod], "F8", lazy.spawn('/home/shrrg/.config/audio_volume/inc.sh'), desc = 'increase scrren brightness '),
+    Key([],"XF86AudioLowerVolume", lazy.spawn('/home/shrrg/.config/audio_volume/dec.sh'), desc = 'increase scrren brightness '),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn('/home/shrrg/.config/audio_volume/inc.sh'), desc = 'increase scrren brightness '),
+    Key([mod],"F3", lazy.spawn('/home/shrrg/.config/brightness/inc.sh'), desc = 'increase scrren brightness '),
+    Key([mod], "F2", lazy.spawn('/home/shrrg/.config/brightness/dec.sh'), desc = 'increase scrren brightness '),
+    Key([],"XF86MonBrightnessUp", lazy.spawn('/home/shrrg/.config/brightness/inc.sh'), desc = 'increase scrren brightness '),
+    Key([], "XF86MonBrightnessDown", lazy.spawn('/home/shrrg/.config/brightness/dec.sh'), desc = 'increase scrren brightness '),
+    #Key([mod], "/", libqtile.core.manager.Qtile.cmd_spawn(cmd = 'xbacklight -dec 10', shell = True)),
+    #Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
+
+
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
     Key([mod], "j", lazy.layout.down(), desc="Move focus down"),
@@ -48,15 +77,20 @@ keys = [
         lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack",
     ),
+    Key(["control"],  "t", lazy.spawn('konsole'), desc="Launch terminal"),
     Key([mod], "Return", lazy.spawn('kitty'), desc="Launch terminal"),
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "r", lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    Key([alt], 'space', lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key([mod], "b", lazy.spawn('qutebrowser'), desc="Launch browser"),
-    #Key([], "Super_L", lazy.spawn('rofi -show drun'), desc="Launch browser", on_release=True),
+    Key([mod], "q", lazy.spawn('/home/shrrg/.config/rofi/launchers/colorful/launcher.sh'), desc="Launch browser"),
+    #Key([mod],'mod4', lazy.spawn('/home/shrrg/.config/rofi/launchers/colorful/launcher.sh'), desc="Launch browser"),
+    Key([mod], "Down", lazy.to_screen(0)),
+    Key([mod], "Up", lazy.to_screen(1)),
+    Key([], "Super_L", lazy.spawn('/home/shrrg/.config/rofi/launchers/colorful/launcher.sh'), desc="Launch browser"),
 ]
 
 groups = [Group(i) for i in "asdfuiop"]
@@ -110,13 +144,13 @@ widget_defaults = dict(
 
 widget_defaults = dict(
     font="TabacMono",
-    fontsize = 10,
+    fontsize = 15,
     padding = 2,
     background="#102313"
 )
 foreground = "#1a7c5b00"
 background = "#172d3a00"
-foregroundtext = "#9b2727"
+foregroundtext = "#911414"
 backgroundtext = "#172d3a"
 font = 'TabacMono'
 
@@ -144,9 +178,20 @@ screens = [
             [
             
 
+                widget.Image(filename = '~/Pictures/Arch_button.png', background = background, margin = 2, 
+                    mouse_callbacks = {'Button1':lazy.spawn('/home/shrrg/.config/rofi/launchers/colorful/launcher.sh')}),
+
+             widget.TextBox(
+                       text = '|',
+                       font = font,
+                       background = background,
+                       foreground = foregroundtext,
+                       padding = 2,
+                       fontsize = 15
+                       ),
               widget.GroupBox(
                        font = font,
-                       fontsize = 12,
+                       fontsize = 14,
                        margin_y = 3,
                        margin_x = 0,
                        padding_y = 5,
@@ -176,7 +221,7 @@ screens = [
                        background = background,
                        foreground = foregroundtext,
                        padding = 2,
-                       fontsize = 14
+                       fontsize = 15
                        ),
 
 
@@ -185,10 +230,24 @@ screens = [
                        foreground = foregroundtext,
                        background = background,
                        padding = 0, 
-                       font = font
+                       font = font,
+                       fontsize = 12
                        ),
 
 
+            widget.BatteryIcon(update_interval = 5, background = None),
+                #theme_path = '/usr/share/icons/breeze-dark'),
+
+            widget.Battery(
+                    foreground = foregroundtext, 
+                    background = background,
+                    font = font,
+                    fontsize = 15,
+                    charge_char = '+',
+                    discharge_char = '-',
+                    format = '{char}{percent:4.2%}',
+                    update_interval = 5
+                    ),
 
 
              widget.TextBox(
@@ -198,7 +257,7 @@ screens = [
                        background = background,
                        foreground = '#16469b',
                        padding = -13,
-                       fontsize = 66
+                       fontsize = 88
                        ),
 #            widget.Net(
 #                      interface = "enp1s0",
@@ -208,7 +267,7 @@ screens = [
 #                      padding = 5,
 #                      fontsize = 12
 #                      ),
-
+#
             widget.CPU(
                     foreground = backgroundtext,
                     background = '#16469b',
@@ -226,6 +285,7 @@ screens = [
                         frequency = 0.1,
                         graph_color = backgroundtext,
                         background = '#16469b', 
+                        mouse_callbacks = {'Button1':lazy.spawn('kitty -e htop')},
                         foreground = '#16469b', 
              ),
 
@@ -236,7 +296,7 @@ screens = [
                        background = background,
                        foreground = '#16469b',
                        padding = -13,
-                       fontsize = 66
+                       fontsize = 88
                        ),
 
 #             widget.ThermalSensor(
@@ -248,29 +308,44 @@ screens = [
 #                       padding = 5
 #                       ),
              widget.Clock(format="%a %d %m %H:%M:%S", 
-                     fontsize = 12,
+                     fontsize = 15,
                      foreground=foregroundtext, 
-                     background = background),
+                     background = background,
+                     mouse_callbacks = {'Button1':lazy.spawn('kitty cal -y | less')},
+                     fonsize = 15),
 
              widget.TextBox(
                        text = '◢',
                        #text = '',
                        font = "SourceCodePro",
                        background = background,
-                       foreground = '#9b9216',
+                       foreground = '#16469b',
                        padding = -13,
-                       fontsize = 66
+                       fontsize = 88
                        ),
+
+
+            widget.Volume(foreground = backgroundtext, 
+                    update_interval = 0.05,
+                    background = '#16469b', 
+                    font = font, 
+                    fontsize = 15 ,
+                    padding = 5),
+
+
+            widget.Spacer(length = 20, 
+                          background = '#16469b'),
 
 
              widget.QuickExit(foreground = backgroundtext,
                      #background = foreground,
-                     background = '#9b9216',
-                     default_text = 'Ψ'
+                     background = '#16469b',
+                     default_text = '|Ψ',
+                     fontsize = 14
                      ),
 
              ], 
-             24,
+             26,
              background = '#00000000',
              #opacity = 0.5
             #border_width=[3, 3, 3, 3],  # Draw top and bottom borders
@@ -308,7 +383,7 @@ reconfigure_screens = True
 
 # If things like steam games want to auto-minimize themselves when losing
 # focus, should we respect this or not?
-auto_minimize = True
+auto_minimize = False
 
 # When using the Wayland backend, this can be used to configure input devices.
 wl_input_rules = None
