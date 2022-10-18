@@ -13,20 +13,12 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 import psutil
 import os
+from spotify import Spotify
 
-
-
-mod = "mod1"
-alt = 'mod4'
-
-
-#mod = "mod4"
-#alt = 'mod1'
-
-
-
-
-
+#Alt = mod1
+#SUper = mod4
+mod = "mod1" #Alt
+alt = 'mod4' #Super_L
 
 
 
@@ -37,17 +29,13 @@ keys = [
     # at https://docs.qtile.org/en/latest/manual/config/lazy.html
     # Switch between windows
     Key([mod],"F6", lazy.spawn('/home/shrrg/.config/audio_volume/0.sh'), desc = 'increase scrren brightness '),
-    #Key([mod],"F7", lazy.spawn('/home/shrrg/.config/audio_volume/dec.sh'), desc = 'increase scrren brightness '),
-    #Key([mod], "F8", lazy.spawn('/home/shrrg/.config/audio_volume/inc.sh'), desc = 'increase scrren brightness '),
     Key([],"XF86AudioLowerVolume", lazy.spawn('/home/shrrg/.config/audio_volume/dec.sh'), desc = 'increase scrren brightness '),
     Key([], "XF86AudioRaiseVolume", lazy.spawn('/home/shrrg/.config/audio_volume/inc.sh'), desc = 'increase scrren brightness '),
+    Key([], "XF86AudioMute", lazy.spawn('/home/shrrg/.config/audio_volume/0.sh'), desc = 'increase scrren brightness '),
     Key([mod],"F3", lazy.spawn('/home/shrrg/.config/brightness/inc.sh'), desc = 'increase scrren brightness '),
     Key([mod], "F2", lazy.spawn('/home/shrrg/.config/brightness/dec.sh'), desc = 'increase scrren brightness '),
     Key([],"XF86MonBrightnessUp", lazy.spawn('/home/shrrg/.config/brightness/inc.sh'), desc = 'increase scrren brightness '),
     Key([], "XF86MonBrightnessDown", lazy.spawn('/home/shrrg/.config/brightness/dec.sh'), desc = 'increase scrren brightness '),
-    #Key([mod], "/", libqtile.core.manager.Qtile.cmd_spawn(cmd = 'xbacklight -dec 10', shell = True)),
-    #Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
-
 
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),
@@ -71,23 +59,19 @@ keys = [
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
     # multiple stack panes
-    Key(
-        [mod, "shift"],
-        "Return",
-        lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack",
-    ),
+    Key([mod, "shift"],"Return",lazy.layout.toggle_split(),desc="Toggle between split and unsplit sides of stack"),
     Key(["control"],  "t", lazy.spawn('konsole'), desc="Launch terminal"),
     Key([mod], "Return", lazy.spawn('kitty'), desc="Launch terminal"),
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod], "q", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod], "F4", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([alt], 'space', lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
+    Key([mod], 'space', lazy.spawncmd(), desc="Spawn a command using a prompt widget"),
     Key([mod], "b", lazy.spawn('qutebrowser'), desc="Launch browser"),
-    Key([mod], "q", lazy.spawn('/home/shrrg/.config/rofi/launchers/colorful/launcher.sh'), desc="Launch browser"),
-    #Key([mod],'mod4', lazy.spawn('/home/shrrg/.config/rofi/launchers/colorful/launcher.sh'), desc="Launch browser"),
+    Key([mod,'control'], "b", lazy.spawn('librewolf'), desc="Launch browser"),
     Key([mod], "Down", lazy.to_screen(0)),
     Key([mod], "Up", lazy.to_screen(1)),
     Key([], "Super_L", lazy.spawn('/home/shrrg/.config/rofi/launchers/colorful/launcher.sh'), desc="Launch browser"),
@@ -112,26 +96,26 @@ for i in groups:
                 lazy.window.togroup(i.name, switch_group=True),
                 desc="Switch to & move focused window to group {}".format(i.name),
             ),
-            # Or, use below if you prefer not to switch to that group.
+            # mod + ctrl = not to switch to that group.
             # # mod1 + shift + letter of group = move focused window to group
-            # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-            #     desc="move focused window to group {}".format(i.name)),
+            Key([mod, "control"], i.name, lazy.window.togroup(i.name),
+                desc="move focused window to group {}".format(i.name)),
         ]
     )
-kingblue = '0d1f58'
+kingaccent_1 = '0d1f58'
 layouts = [
-    layout.Columns(border_focus="#1a7c5b", border_normal='2a2b2b00', border_width=4, margin =3),
+    layout.Columns(border_focus="#aaaaaa", border_normal='2a2b2b00', border_width=4, margin =2, border_on_single = False, margin_on_single = 0),
     #layout.Max(),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
     # layout.Bsp(border_focus = '#d6a60a', border_normal = '#2a2b2b', border_width = 4),
     # layout.Matrix(),
-    layout.Floating(border_focus = '#cfad3d', border_normal = '#2a2b2b'),
+    #layout.Floating(border_focus = '#cfad3d', border_normal = '#2a2b2b'),
     # layout.MonadTall(border_focus = '#d6a60a', border_normal ='#2a2b2b' , border_width = 4),
     # layout.MonadWide(),
     # layout.RatioTile(),
     #layout.Tile(border_focus = '#d6a60a', border_normal = '#2a2b2b', border_width = 4),
-    # layout.TreeTab(border_focus = '#d6a60a', border_normal = '#2a2b2b', border_width = 4),
+    layout.TreeTab(border_focus = '#d6a60a', border_normal = '#2a2b2b', border_width = 4),
     # layout.VerticalTile(),
     # layout.Zoomy(),
 ]
@@ -152,204 +136,260 @@ foreground = "#1a7c5b00"
 background = "#172d3a00"
 foregroundtext = "#911414"
 backgroundtext = "#172d3a"
+#accent_2 = '#d3ba15'
+#accent_2 = '#441010'
+accent_2 = '#1933c9'
+white = '#ffffff'
+black = '#000000'
+spotify_color = '#1ED76020'
 font = 'TabacMono'
 
 extension_defaults = widget_defaults.copy()
 screens = [
     Screen(
         bottom=bar.Bar(
-#                [            
-#                widget.CurrentLayout(),
-#                widget.GroupBox(),
-#                widget.Prompt(),
-#                widget.WindowName(),
-#                widget.Chord(
-##                    chords_colors={
-#                        "launch": ("#ff0000", "#ffffff"),
-##                    },
-#                    name_transform=lambda name: name.upper(),
-#                ),
-#                widget.Systray(),
-#                widget.Clock(format="%Y-%m-%d %a %I:%M %p"),
-#                widget.QuickExit(),
-#            ],
-#
-#
             [
-            
-
-                widget.Image(filename = '~/Pictures/Arch_button.png', background = background, margin = 2, 
-                    mouse_callbacks = {'Button1':lazy.spawn('/home/shrrg/.config/rofi/launchers/colorful/launcher.sh')}),
-
-             widget.TextBox(
-                       text = '|',
-                       font = font,
-                       background = background,
-                       foreground = foregroundtext,
-                       padding = 2,
-                       fontsize = 15
-                       ),
-              widget.GroupBox(
-                       font = font,
-                       fontsize = 14,
-                       margin_y = 3,
-                       margin_x = 0,
-                       padding_y = 5,
-                       padding_x = 3,
-                       borderwidth = 3,
-                       inactive = "#5d2f2c",
-                       active = foregroundtext,
-                       rounded = False,
-                       this_current_screen_border = foregroundtext,
-                       highlight_color = foregroundtext,
-                       highlight_method = "block",
-                       foreground = '#2a2b2b',
-                       background = background, 
-                       ),
-
-            #widget.LaunchBar(
-            #                background = background, 
-            #                foreground = foreground
-            #),
-             widget.Prompt(foreground = foregroundtext, 
-                           background = background, 
-                           font = font),
-
-             widget.TextBox(
-                       text = '|',
-                       font = font,
-                       background = background,
-                       foreground = foregroundtext,
-                       padding = 2,
-                       fontsize = 15
-                       ),
-
-
-
-             widget.WindowName(
-                       foreground = foregroundtext,
-                       background = background,
-                       padding = 0, 
-                       font = font,
-                       fontsize = 12
-                       ),
-
-
-            widget.BatteryIcon(update_interval = 5, background = None),
-                #theme_path = '/usr/share/icons/breeze-dark'),
-
-            widget.Battery(
-                    foreground = foregroundtext, 
-                    background = background,
-                    font = font,
-                    fontsize = 15,
-                    charge_char = '+',
-                    discharge_char = '-',
-                    format = '{char}{percent:4.2%}',
-                    update_interval = 5
+                widget.Image(
+                    filename = '~/.config/qtile/icons/Arch_button.png',
+                    background = black,
+                    margin = 2, 
+                    mouse_callbacks = {'Button1':lazy.spawn('/home/shrrg/.config/rofi/launchers/colorful/launcher.sh')}
                     ),
 
 
-             widget.TextBox(
-                       text = '◢',
-                       #text = 'T',
-                       font = font,
-                       background = background,
-                       foreground = '#16469b',
-                       padding = -13,
-                       fontsize = 88
+                widget.TextBox(
+                        text = '◣', 
+                        font = font, 
+                        fontsize = 88, 
+                        padding = -13, 
+                        background = accent_2, 
+                        foreground = black),
+
+                widget.GroupBox(
+                         font = font,
+                         fontsize = 14,
+                         margin_y = 3,
+                         margin_x = 0,
+                         padding_y = 5,
+                         padding_x = 3,
+                         borderwidth = 3,
+                         inactive = "#323232",
+                         active = white,
+                         rounded = False,
+                         this_current_screen_border = black,
+                         highlight_color = foregroundtext,
+                         highlight_method = "block",
+                         foreground = '#2a2b2b',
+                         background = accent_2, 
+                         ),
+
+                widget.TextBox(
+                        text = '◣', 
+                        font = font, 
+                        fontsize = 88, 
+                        padding = -13, 
+                        foreground = accent_2, 
+                        background = background),
+
+                widget.Prompt(foreground = '#ffffff',#foregroundtext, 
+                              background = background, 
+                              font = font),
+
+                widget.WindowName(
+                          foreground = '#ffffff',
+                          background = background,
+                          padding = 0, 
+                          font = font,
+                          fontsize = 12,
+                          for_current_screen = True,
+                          max_chars = 40
+                          ),
+
+                widget.TextBox(
+                          text = '◢',
+                          #text = 'T',
+                          font = font,
+                          background = background,
+                          foreground = spotify_color,
+                          padding = -13,
+                          fontsize = 88
+                          ),
+                Spotify(
+                        format = '{track} {icon} ',
+                        background = spotify_color, 
+                        foreground = '#777777',
+                        pause_icon = '◀', 
+                        play_icon = '||', 
+                        ),
+
+               widget.Image(
+                   filename = '~/.config/qtile/icons/spotify.png',
+                   background = spotify_color,
+                   margin = 2, 
+                   ),
+
+
+                widget.TextBox(
+                          text = '◢',
+                          font = font,
+                          foreground = accent_2,
+                          background = spotify_color,
+                          padding = -13,
+                          fontsize = 88
+                          ),
+
+
+                widget.WidgetBox(widgets = [
+
+                    widget.Battery(
+                            foreground = white,
+                            background = accent_2,
+                            font = font,
+                            fontsize = 15,
+                            charge_char = '+',
+                            discharge_char = '-',
+                            format = '{char}{percent:2.0%}',
+                            update_interval = 5
+                            ),
+
+                       widget.Image(
+                           filename = '~/.config/qtile/icons/battery.png',
+                           background = accent_2,
+                           margin = 2, 
+                           ),
+
+
+                     widget.TextBox(
+                               text = '◢',
+                               font = font,
+                               background = accent_2,
+                               foreground = black,
+                               padding = -13,
+                               fontsize = 88
+                               ),
+                     widget.Wlan(
+                               background = black,
+                               foreground = white,
+                               padding = 5,
+                               fontsize = 15,
+                               mouse_callbacks = {'Button1':lazy.spawn('kitty -e nmtui')},
+                               interface = "wlo1",
+                               format = '{percent:2.0%}'
+                               ),
+                     widget.Net(
+                               interface = "wlo1",
+                               format = '{down}',
+                               background = black,
+                               prefix = 'k',
+                               foreground = white,
+                               padding = 5,
+                               fontsize = 15,
+                               mouse_callbacks = {'Button1':lazy.spawn('kitty -e nmtui')},
+                               ),
+
+                       widget.Image(
+                           filename = '~/.config/qtile/icons/net.png',
+                           background = black,
+                           margin = 2, 
+                           mouse_callbacks = {'Button1':lazy.spawn('kitty -e nmtui')}
+                           ),
+
+                      widget.TextBox(
+                                text = '◢',
+                                font = font,
+                                background = black,
+                                foreground = accent_2,
+                                padding = -13,
+                                fontsize = 88
+                                ),
+
+                      widget.CPU(
+                              foreground = white,
+                              background = accent_2,
+                              format = '{load_percent}%',
+                              update_interval = 0.4, 
+                              mouse_callbacks = {'Button1':lazy.spawn('kitty -e htop')},
+                              max_chars = 12
+                      ),
+
+
+                       widget.CPUGraph(
+                                  type = 'box',
+                                  border_width = 0,
+                                  fill_color = white,
+                                  frequency = 0.1,
+                                  graph_color = white,
+                                  background = accent_2, 
+                                  mouse_callbacks = {'Button1':lazy.spawn('kitty -e htop')},
+                                  foreground = accent_2, 
                        ),
-#            widget.Net(
-#                      interface = "enp1s0",
-#                      format = 'Net: {down} ↓↑ {up}',
-#                      foreground = background,
-#                      background = foreground,
-#                      padding = 5,
-#                      fontsize = 12
-#                      ),
-#
-            widget.CPU(
-                    foreground = backgroundtext,
-                    background = '#16469b',
-                    #format = '{freq_current}GHz, {load_percent}',
-                    format = '{load_percent}',
-                    update_interval = 0.4, 
-                    max_chars = 12
-            ),
+
+                       widget.Image(
+                           filename = '~/.config/qtile/icons/cpu.png',
+                           background = accent_2,
+                           margin = 2, 
+                           mouse_callbacks = {'Button1':lazy.spawn('kitty -e htop')}
+                           ),
+
+                       widget.TextBox(
+                                 text = '◤',
+                                 font = "SourceCodePro",
+                                 background = black,
+                                 foreground = accent_2,
+                                 padding = -13,
+                                 fontsize = 88
+                                 ),
+
+                       widget.Volume(foreground = white, 
+                               update_interval = 0.10,
+                               background = black, 
+                               font = font, 
+                               fontsize = 15,
+                               mouse_callbacks = {'Button1':lazy.spawn('kitty -e alsamixer')},
+                               ),
+
+                       widget.Image(
+                           filename = '~/.config/qtile/icons/audio.png',
+                           background = black,
+                           margin = 2, 
+                           mouse_callbacks = {'Button1':lazy.spawn('kitty -e alsamixer')}
+                           ),
+                
+                       widget.TextBox(
+                                 text = '◤',
+                                 font = "SourceCodePro",
+                                 background = accent_2,
+                                 foreground = black,
+                                 padding = -13,
+                                 fontsize = 88
+                                 ),
+                    ], 
+                    background = accent_2,
+                    text_closed = '<-',
+                    text_open = '->',
+                    close_button_location = 'right',
+                    font = 'TabacMono',
+                    ),
+                    widget.TextBox(
+                              text = '◢',
+                              font = "SourceCodePro",
+                              background = accent_2,
+                              foreground = black,
+                              padding = -13,
+                              fontsize = 88
+                              ),
+                    widget.Clock(format="%a %d/%m; %H:%M:%S", 
+                            fontsize = 15,
+                            foreground=white, 
+                            background = black,
+                            mouse_callbacks = {'Button1':lazy.spawn('kitty -e /home/shrrg/.config/qtile/scripts/show_cal')},
+                            font = font),
 
 
-             widget.CPUGraph(
-                        type = 'box',
-                        border_width = 0,
-                        fill_color = backgroundtext,
-                        frequency = 0.1,
-                        graph_color = backgroundtext,
-                        background = '#16469b', 
-                        mouse_callbacks = {'Button1':lazy.spawn('kitty -e htop')},
-                        foreground = '#16469b', 
-             ),
-
-             widget.TextBox(
-                       #text = '',
-                       text = '◤',
-                       font = "SourceCodePro",
-                       background = background,
-                       foreground = '#16469b',
-                       padding = -13,
-                       fontsize = 88
-                       ),
-
-#             widget.ThermalSensor(
-#                       fontsize = 12,
-#                       foreground = foreground,
-#                       background = background,
-#                       threshold = 90,
-#                       fmt = 'Temp: {}',
-#                       padding = 5
-#                       ),
-             widget.Clock(format="%a %d %m %H:%M:%S", 
-                     fontsize = 15,
-                     foreground=foregroundtext, 
-                     background = background,
-                     mouse_callbacks = {'Button1':lazy.spawn('kitty cal -y | less')},
-                     fonsize = 15),
-
-             widget.TextBox(
-                       text = '◢',
-                       #text = '',
-                       font = "SourceCodePro",
-                       background = background,
-                       foreground = '#16469b',
-                       padding = -13,
-                       fontsize = 88
-                       ),
-
-
-            widget.Volume(foreground = backgroundtext, 
-                    update_interval = 0.05,
-                    background = '#16469b', 
-                    font = font, 
-                    fontsize = 15 ,
-                    padding = 5),
-
-
-            widget.Spacer(length = 20, 
-                          background = '#16469b'),
-
-
-             widget.QuickExit(foreground = backgroundtext,
-                     #background = foreground,
-                     background = '#16469b',
-                     default_text = '|Ψ',
-                     fontsize = 14
-                     ),
 
              ], 
              26,
              background = '#00000000',
-             #opacity = 0.5
-            #border_width=[3, 3, 3, 3],  # Draw top and bottom borders
-            #border_color=["ff00ff", "000000", "ff00ff", "000000"]  # Borders are magenta
         ),
     ),
 ]
@@ -362,8 +402,8 @@ mouse = [
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: list
-follow_mouse_focus = True
-bring_front_click = False
+follow_mouse_focus = False
+bring_front_click = True
 cursor_warp = False
 floating_layout = layout.Floating(
     float_rules=[
@@ -388,12 +428,5 @@ auto_minimize = False
 # When using the Wayland backend, this can be used to configure input devices.
 wl_input_rules = None
 
-# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
-# string besides java UI toolkits; you can see several discussions on the
-# mailing lists, GitHub issues, and other WM documentation that suggest setting
-# this string if your java app doesn't work correctly. We may as well just lie
-# and say that we're a working one by default.
-#
-# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
-# java that happens to be on java's whitelist.
+
 wmname = "Qtile"
